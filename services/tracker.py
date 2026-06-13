@@ -6,7 +6,7 @@ import os
 from models.expense import Expense
 from exceptions.errors import InvalidAmountError, InvalidCategoryError, EmptyTrackerError
 from utils.logger import logger
-from config import DEFAULT_FILEPATH, VALID_CATEGORIES
+from config import MAX_EXPENSE_LIMIT, VALID_CATEGORIES
 
 class ExpenseTracker:
     def __init__(self,owner_name,filepath:str='expense.csv'):
@@ -36,6 +36,8 @@ class ExpenseTracker:
 # - show_all if self.expenses is empty → raise EmptyTrackerError
     def add_expense(self, category: str, amount: float,
                 description: str, expense_date: date = None) -> None:
+        if amount > MAX_EXPENSE_LIMIT:
+            raise InvalidAmountError(f"Amount ₹{amount} exceeds limit of ₹{MAX_EXPENSE_LIMIT}")
         if amount <= 0:
             logger.warning(f"Invalid amount: {amount}")
             raise InvalidAmountError(f"Amount must be positive, got {amount}")

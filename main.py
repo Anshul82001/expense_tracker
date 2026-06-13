@@ -1,10 +1,15 @@
 from datetime import date
 from services.tracker import ExpenseTracker
 from exceptions.errors import InvalidAmountError, InvalidCategoryError
+from dotenv import load_dotenv
+import os
 
 
 def main():
-    tracker = ExpenseTracker("Rahul")
+    load_dotenv()
+    owner = os.getenv("TRACKER_OWNER","Default")
+    data_path = os.getenv("DATA_PATH","data/expense.csv")
+    tracker = ExpenseTracker(owner,data_path)
 
     # add expenses
     tracker.add_expense("Food", 250, "Lunch", date(2026, 6, 1))

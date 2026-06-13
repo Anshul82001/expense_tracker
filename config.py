@@ -1,3 +1,7 @@
-DEFAULT_FILEPATH  = "data/expenses.csv"
-LOG_FILE          = "logs/expense_tracker.log"
-VALID_CATEGORIES  = ["Food", "Transport", "Shopping", "Utilities", "Health", "Other"]
+import yaml
+with open("config.yaml") as f:
+    CONFIG = yaml.safe_load(f)
+
+VALID_CATEGORIES=CONFIG["tracker"]['valid_categories']
+MAX_EXPENSE_LIMIT=CONFIG['tracker']['max_expense_limit']
+
